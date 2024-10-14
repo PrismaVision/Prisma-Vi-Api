@@ -1,4 +1,4 @@
-package com.prisma_vision.user_api.user
+package com.api.prisma_vi.user
 
 import jakarta.persistence.*
 

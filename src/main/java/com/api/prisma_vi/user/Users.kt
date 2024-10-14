@@ -14,12 +14,12 @@ data class Users(
     val name: String,
 
     @Column(unique = true)
-    val login: String,
+    private val login: String,
 
     @Column(nullable = false)
-    val password: String,
+    private val password: String,
 
     @OneToMany
-    val palettes: List<Palette>,
+    private val palettes: List<Palette>,
 
 )

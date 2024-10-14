@@ -22,6 +22,4 @@ data class Users(
     @OneToMany
     val palettes: List<Palette>,
 
-    @ManyToOne
-    val colorHistory: List<Colors>
 )

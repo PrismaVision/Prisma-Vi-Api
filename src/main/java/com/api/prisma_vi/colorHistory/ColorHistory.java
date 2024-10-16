@@ -13,13 +13,14 @@ import java.util.List;
 @Entity
 public class ColorHistory {
 
-    @Id @GeneratedValue
-    private int id;
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "users_id")
     protected Users user;
 
+    @ManyToMany
     private List<Colors> colors;
 
 }

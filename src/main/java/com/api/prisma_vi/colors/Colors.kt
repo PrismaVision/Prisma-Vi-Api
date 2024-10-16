@@ -9,7 +9,7 @@ import jakarta.persistence.Id
 data class Colors(
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id: Int,
+    val id: Long,
     val name: String,
     val hexCode: String,
     val rgbCode: String,

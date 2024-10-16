@@ -23,5 +23,4 @@ public class Palette {
 
     @ManyToMany
     protected List<Colors> colors;
-
 }

@@ -1,4 +1,4 @@
-package com.api.prisma_vi.infra.security;
+package com.api.prisma_vi.auth;
 
 import com.api.prisma_vi.user.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,6 @@ public class AuthorizationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByNickName(username);
+        return repository.findByEmail(username);
     }
 }

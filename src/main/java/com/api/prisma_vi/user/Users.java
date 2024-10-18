@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @Table
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Users implements UserDetails {
 
@@ -34,13 +33,30 @@ public class Users implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Palette> palettes;
-
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
+
+    public Users(String nickName, String email, String password, UserRole role){
+
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+
+    }
+
+    public Users(String nickName, String email, String password){
+
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

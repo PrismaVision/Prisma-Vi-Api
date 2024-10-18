@@ -5,6 +5,7 @@ import com.api.prisma_vi.infra.security.TokenService;
 import com.api.prisma_vi.user.Users;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +34,7 @@ public class AuthenticationController {
 
         var token = tokenService.generateToken((Users) auth.getPrincipal());
 
-        return ResponseEntity.ok(new AuthenticationView(token));
+        return ResponseEntity.status(HttpStatus.OK).body(new AuthenticationView(token, "Bearer"));
     }
 
 

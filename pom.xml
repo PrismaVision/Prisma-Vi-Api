@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.api</groupId>
 	<artifactId>prisma-vi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>prisma-vi</name>
 	<description>Prisma-VI api for web and mobile</description>
 	<url/>

@@ -13,4 +13,4 @@ ARG JAR_FILE=target/prisma-vi-1.jar
 
 COPY --from=build /app/${JAR_FILE} app.jar
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]

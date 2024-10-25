@@ -1,3 +1,17 @@
+# Application in prod!!!!!!!!
+
+#### Request DNS
+##### api
+
+    https://prisma-vi-api.onrender.com/api
+____________
+
+##### authentication
+
+    https://prisma-vi-api.onrender.com/auth
+    
+
+
 # How to run local
 
 [Download postgres docker compose](https://github.com/SamuelSoaresSilva/postgres-docker/blob/compose/docker-compose.yaml) | [Download docker desktop](https://www.docker.com/products/docker-desktop/)

@@ -1,4 +1,4 @@
-package com.api.prisma_vi.auth
+package com.api.prisma_vi.auth.register
 
 import com.api.prisma_vi.user.UserRole
 

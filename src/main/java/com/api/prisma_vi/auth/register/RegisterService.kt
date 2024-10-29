@@ -1,4 +1,4 @@
-package com.api.prisma_vi.auth
+package com.api.prisma_vi.auth.register
 
 import com.api.prisma_vi.user.UserRole
 import com.api.prisma_vi.user.Users
@@ -13,6 +13,7 @@ class RegisterService(private val repository: UsersRepository) {
 
     fun registerUser(data: RegisterForm): ResponseEntity<Any>{
 
+
         if (repository.existsByEmail(data.email))
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("There is already an account linked to this email")
 
@@ -22,5 +23,4 @@ class RegisterService(private val repository: UsersRepository) {
         repository.save(newUser)
         return ResponseEntity.ok().build()
     }
-
 }

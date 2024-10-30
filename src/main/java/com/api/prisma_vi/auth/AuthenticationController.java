@@ -1,6 +1,10 @@
 package com.api.prisma_vi.auth;
 
 
+import com.api.prisma_vi.auth.login.AuthenticationView;
+import com.api.prisma_vi.auth.login.AutheticationForm;
+import com.api.prisma_vi.auth.register.RegisterForm;
+import com.api.prisma_vi.auth.register.RegisterService;
 import com.api.prisma_vi.infra.security.TokenService;
 import com.api.prisma_vi.user.Users;
 import jakarta.validation.Valid;

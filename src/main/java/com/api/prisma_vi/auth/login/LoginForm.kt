@@ -3,7 +3,7 @@ package com.api.prisma_vi.auth.login
 import jakarta.validation.constraints.NotBlank
 
 @JvmRecord
- data class AutheticationForm(
+ data class LoginForm(
 
     @field:NotBlank(message = "Invalid cannot be blank")
     val email: String = "",

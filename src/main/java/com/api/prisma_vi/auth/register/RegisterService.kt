@@ -17,9 +17,6 @@ class RegisterService(private val repository: UsersRepository) {
             data.nickName.contains(" ") || data.password.contains(" ") ->
                 ResponseEntity.status(HttpStatus.CONFLICT).body("Input field can not have spaces")
 
-            data.password.length < 6 || data.password.length > 16 ->
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password must contain 6 to 16 characters")
-
             (repository.existsByEmail(data.email)) ->
                 ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("There is already an account linked to this email")
 

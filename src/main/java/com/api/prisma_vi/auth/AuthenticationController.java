@@ -1,8 +1,8 @@
 package com.api.prisma_vi.auth;
 
 
-import com.api.prisma_vi.auth.login.AuthenticationView;
-import com.api.prisma_vi.auth.login.AutheticationForm;
+import com.api.prisma_vi.auth.login.LoginView;
+import com.api.prisma_vi.auth.login.LoginForm;
 import com.api.prisma_vi.auth.register.RegisterForm;
 import com.api.prisma_vi.auth.register.RegisterService;
 import com.api.prisma_vi.infra.security.TokenService;
@@ -32,13 +32,13 @@ public class AuthenticationController {
     private RegisterService registerService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AutheticationForm data){
+    public ResponseEntity<?> login(@RequestBody @Valid LoginForm data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((Users) auth.getPrincipal());
 
-        return ResponseEntity.status(HttpStatus.OK).body(new AuthenticationView(token, "Bearer"));
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginView(token, "Bearer"));
     }
 
 

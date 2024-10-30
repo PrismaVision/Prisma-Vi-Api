@@ -3,7 +3,6 @@ package com.api.prisma_vi.auth.register
 import com.api.prisma_vi.user.UserRole
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.Size
 
 data class RegisterForm(
 

@@ -19,11 +19,15 @@ public class GeminiService {
         this.geminiClient = geminiClient;
     }
 
-    public String generateContent(String prompt) {
-        GeminiRequestBody.Part part = new GeminiRequestBody.Part(prompt);
-        GeminiRequestBody.Content content = new GeminiRequestBody.Content(Collections.singletonList(part));
-        GeminiRequestBody geminiRequestBody = new GeminiRequestBody(Collections.singletonList(content));
 
+    public String generateContent(String prompt) {
+        var part = new GeminiRequestBody.Part(prompt);
+        var content = new GeminiRequestBody.Content(Collections.singletonList(part));
+        var generationConfig = new GeminiRequestBody.GenerationConfig("application/json");
+        var geminiRequestBody = new GeminiRequestBody(
+                Collections.singletonList(content),
+                generationConfig
+        );
         return geminiClient.searchColor(geminiRequestBody, apiToken).getBody();
     }
 

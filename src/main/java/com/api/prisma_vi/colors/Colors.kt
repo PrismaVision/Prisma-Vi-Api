@@ -13,7 +13,7 @@ data class Colors(
     val name: String,
     val hexCode: String,
     val rgbCode: String,
-//    val rybPercentages: String,
+//  val rybPercentages: String,
     val colorDescription: String,
     val twoColorsThatMatchHex: String,
     val colorTerminology: String

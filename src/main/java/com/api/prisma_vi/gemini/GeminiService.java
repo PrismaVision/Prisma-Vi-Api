@@ -1,5 +1,6 @@
 package com.api.prisma_vi.gemini;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,4 +32,17 @@ public class GeminiService {
         return geminiClient.searchColor(geminiRequestBody, apiToken).getBody();
     }
 
-}
+    public String formatResponse(String jsonResponse) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            GeminiResponseBody response = objectMapper.readValue(jsonResponse, GeminiResponseBody.class);
+            return response.candidates().get(0).content().parts().get(0).text();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return e.toString();
+        }
+    }
+    }
+

@@ -16,9 +16,8 @@ public class GeminiController {
 
     @PostMapping
     public String generate(@RequestBody String hex) {
-        var prompt = "what color is this: "+hex;
-        
-        var response = geminiService.generateContent(prompt);
-        return geminiService.formatResponse(response);
+        return geminiService.formatResponse(
+                geminiService.generateContent(
+                        geminiService.generatePrompt(hex.trim())));
     }
 }

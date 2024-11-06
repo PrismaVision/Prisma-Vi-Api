@@ -31,19 +31,17 @@ public class GeminiService {
                 + ": ";
 
         ColorsForm object = new ColorsForm(
-                "(Color name)",
+                "(a creative name for the color)",
                 "(HEX code of color)",
                 "(RGB code of color)",
-                "(red yellow and blue percentages to make the color)",
+                "(red yellow and blue percentages to make the color with this format: {r: x%, y: x%, b: x%})",
                 "(hot, cold or neutral)",
                 "(a description of the color, like the feeling that the color conveys or objects that are that color)",
                 "(two colors that match with the main color in HEX code)",
                 "(primary, secondary, tertiary, neutral or terrestrial)"
         );
 
-        String prompt = order + object.toString() ;
-
-        return prompt;
+        return order + object.toString();
     }
 
 
@@ -70,5 +68,5 @@ public class GeminiService {
             return e.toString();
         }
     }
-    }
+}
 

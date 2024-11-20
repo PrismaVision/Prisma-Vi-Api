@@ -15,10 +15,10 @@ class RegisterService(private val repository: UsersRepository) {
         return when{
 
             data.nickName.contains(" ") || data.password.contains(" ") ->
-                ResponseEntity.status(HttpStatus.CONFLICT).body("Input field can not have spaces")
+                ResponseEntity.status(HttpStatus.CONFLICT).body(RegisterView("Input field can not have spaces"))
 
             (repository.existsByEmail(data.email)) ->
-                ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("There is already an account linked to this email")
+                ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(RegisterView("There is already an account linked to this email"))
 
          else ->{
             ResponseEntity.ok().body(saveUser(data))

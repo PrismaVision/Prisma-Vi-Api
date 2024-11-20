@@ -11,7 +11,7 @@ public record GeminiResponseBody(
     public record Candidate(
             Content content,
             String finishReason,
-            int index,
+            double avgLogprobs,
             List<SafetyRating> safetyRatings
     ) {}
 

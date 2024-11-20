@@ -62,9 +62,6 @@ public class GeminiService {
             GeminiResponseBody response = objectMapper.readValue(jsonResponse, GeminiResponseBody.class);
             return response.candidates().get(0).content().parts().get(0).text();
         } catch (Exception e) {
-
-            e.printStackTrace();
-
             return e.toString();
         }
     }

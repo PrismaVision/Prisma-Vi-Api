@@ -25,7 +25,7 @@ class RegisterService(private val repository: UsersRepository) {
             }
         }
     }
-    private fun saveUser(data: RegisterForm): String{
+    private fun saveUser(data: RegisterForm): RegisterView{
 
         val role: UserRole = if (data.email == "prisma@prismatic"){
             UserRole.ADMIN
@@ -42,6 +42,6 @@ class RegisterService(private val repository: UsersRepository) {
                 role
             )
         )
-        return "${data.nickName} was registered successfully"
+        return RegisterView("${data.nickName} was registered successfully")
     }
 }

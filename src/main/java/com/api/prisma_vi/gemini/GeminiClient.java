@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface GeminiClient {
 
 
-    @PostMapping("/v1beta/models/gemini-1.5-flash-8b:generateContent")
+    @PostMapping("/v1beta/models/gemini-1.5-pro:generateContent")
     ResponseEntity<String> searchColor(@RequestBody GeminiRequestBody body,
                                        @RequestParam("key") String apiKey);
 

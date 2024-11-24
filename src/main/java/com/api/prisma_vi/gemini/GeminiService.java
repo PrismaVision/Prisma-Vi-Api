@@ -1,5 +1,6 @@
 package com.api.prisma_vi.gemini;
 
+import com.api.prisma_vi.colors.ColorResponseWrapper;
 import com.api.prisma_vi.colors.ColorsForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,15 @@ public class GeminiService {
             return response.candidates().get(0).content().parts().get(0).text();
         } catch (Exception e) {
             return e.toString();
+        }
+    }
+    public ColorResponseWrapper responseToColorView(String jsonResponse) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(jsonResponse, ColorResponseWrapper.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

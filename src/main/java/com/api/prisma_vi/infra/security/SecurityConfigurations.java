@@ -28,6 +28,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/search-color").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/mock/search-color").permitAll()
                         .requestMatchers(HttpMethod.POST, "auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/is-running").permitAll()
                         .anyRequest().authenticated()

@@ -19,3 +19,7 @@ data class RybPercentages(
     @JsonProperty("b") val b: String
 )
 
+data class ColorResponseWrapper(
+    @JsonProperty("Color") val color: ColorView
+)
+

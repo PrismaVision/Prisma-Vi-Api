@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/search-color")
+@RequestMapping("/api")
 public class GeminiController {
 
     private final GeminiService geminiService;
@@ -20,16 +20,44 @@ public class GeminiController {
         this.geminiService = geminiService;
     }
 
-    @PostMapping
+    @PostMapping("/mock/search-color")
+    public ResponseEntity<?> mockSearchColor(@RequestBody String hex){
+        String jsonResponse = "{\n" +
+                "\"Color\": {\n" +
+                "\"name\": \"Deep Forest Green\",\n" +
+                "\"hexCode\": \"#030a00\",\n" +
+                "\"rgbCode\": \"3, 10, 0\",\n" +
+                "\"rybPercentages\": {\n" +
+                "\"r\": \"0%\",\n" +
+                "\"y\": \"20%\",\n" +
+                "\"b\": \"80%\"\n" +
+                "},\n" +
+                "\"colorTemperature\": \"cool\",\n" +
+                "\"colorDescription\": \"This color evokes feelings of peace, tranquility, and nature.  It's reminiscent of deep forests and lush vegetation.\",\n" +
+                "\"twoHexOfColorsThatMatch\": [\n" +
+                "\"#001f00\",\n" +
+                "\"#002500\"\n" +
+                "],\n" +
+                "\"colorTerminology\": \"tertiary\"\n" +
+                "}\n" +
+                "}";
+
+        return ResponseEntity.ok(geminiService.responseToColorView(jsonResponse));
+    }
+
+    @PostMapping("/search-color")
     public ResponseEntity<?> generate(@RequestBody String hex) {
         try{colorsService.validateHexColor(hex);}
         catch (InvalidHexadecimalException e){
          return ResponseEntity.badRequest().body(e.getMessage());
         }
+
+
         return ResponseEntity.ok().body(
-                geminiService.formatResponse(
-                        geminiService.generateContent(
-                                geminiService.generatePrompt(hex.trim())))
-        );
+                geminiService.responseToColorView(
+                        geminiService.formatResponse(
+                                geminiService.generateContent(
+                                        geminiService.generatePrompt(hex.trim()))))
+                );
     }
 }

@@ -34,32 +34,49 @@ docker-compose down
 # EndPoints
 
 ### Is api running?
-> Params: none
 ```
 /api/is-running
 ```
+> Params:
+>> none
+
 
 ### Login
-> Params:
->>     {
->> 
->>      "email":  "",
->>      "password":  ""
->> 
->>     }
 ```
 /auth/login
 ```
+> Params:
+>>     {
+>>      "email":  "",
+>>      "password":  ""
+>>     }
+
 
 ### Register
+```
+/auth/register
+```
 > Params:
 >>      {
 >>        "nickName": "",
 >>        "email":  "",
 >>        "password":  ""
 >>      }
+
+### Search color
 ```
-/auth/register
+/api/search-color
 ```
+> Params:
+>>      <color hex>
+
+### Mock search color
+```
+/api/mock/search-color
+```
+> Params:
+>>      <color hex>
+
+
 
 

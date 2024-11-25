@@ -22,10 +22,14 @@ public class GeminiController {
 
     @PostMapping("/mock/search-color")
     public ResponseEntity<?> mockSearchColor(@RequestBody String hex){
+        try{colorsService.validateHexColor(hex);}
+        catch (InvalidHexadecimalException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         String jsonResponse = "{\n" +
                 "\"Color\": {\n" +
                 "\"name\": \"Deep Forest Green\",\n" +
-                "\"hexCode\": \"#030a00\",\n" +
+                "\"hexCode\": \""+hex+"\",\n" +
                 "\"rgbCode\": \"3, 10, 0\",\n" +
                 "\"rybPercentages\": {\n" +
                 "\"r\": \"0%\",\n" +

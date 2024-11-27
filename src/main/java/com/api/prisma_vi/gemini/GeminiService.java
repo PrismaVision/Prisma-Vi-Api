@@ -24,7 +24,7 @@ public class GeminiService {
 
     public String generatePrompt(String hex){
 
-        String[] languages = {"pt-br","en-eu"};
+        String[] languages = {"portugues Brasileiro","en-eu"};
         String order = "considering the color: "
                 + hex
                 + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require and translate the values to: "

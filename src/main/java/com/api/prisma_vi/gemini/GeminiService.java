@@ -28,7 +28,7 @@ public class GeminiService {
         String order = "considering the color: "
                 + hex
                 + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require and translate the values to: "
-                + languages[1]
+                + languages[0]
                 + ": ";
 
         ColorsForm object = new ColorsForm(

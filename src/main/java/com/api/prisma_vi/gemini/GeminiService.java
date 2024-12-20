@@ -24,25 +24,27 @@ public class GeminiService {
 
     public String generatePrompt(String hex){
 
-        String[] languages = {"portugues Brasileiro","en-eu"};
-        String order = "considering the color: "
-                + hex
-                + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require and translate the values to: "
-                + languages[0]
-                + ": ";
+        String[] languages = {"pt-br","en-eu"};
 
         ColorsForm object = new ColorsForm(
-                "(a creative name for the color)",
+                "(the name of the closest common color)",
                 "(HEX code of color)",
                 "(RGB code of color)",
                 "(red yellow and blue percentages to make the color with this format: {r: x%, y: x%, b: x%})",
                 "(hot, cold or neutral)",
-                "(a description of the color, like the feeling that the color conveys or objects that are that color)",
+                "(a brief description of the color [color name], including its visual characteristics, how it is formed and what it conveys in terms of feelings, environments or objects that represent it, as well as examples of where this color can be found in nature or in the everyday)",
                 "(two colors that match with the main color in HEX code)",
                 "(primary, secondary, tertiary, neutral or terrestrial)"
         );
 
-        return order + object.toString();
+        String order = "considering the color: "
+                + hex
+                + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require:\n"
+                + object.toString()
+                + "\nand translate the values to: "
+                + languages[1];
+
+        return order;
     }
 
 

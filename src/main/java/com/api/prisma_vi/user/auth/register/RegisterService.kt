@@ -1,4 +1,4 @@
-package com.api.prisma_vi.auth.register
+package com.api.prisma_vi.user.auth.register
 
 import com.api.prisma_vi.user.UserRole
 import com.api.prisma_vi.user.Users
@@ -25,7 +25,7 @@ class RegisterService(private val repository: UsersRepository) {
             }
         }
     }
-    private fun saveUser(data: RegisterForm): RegisterView{
+    private fun saveUser(data: RegisterForm): RegisterView {
 
         val role: UserRole = if (data.email == "prisma@prismatic"){
             UserRole.ADMIN

@@ -1,22 +1,23 @@
 package com.api.prisma_vi.colors
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+class Color(
+    val name: String? = null,
+    val hexCode: String? = null,
+    val rgb: Rgb? = null,
+    val ryb: Ryb? = null,
+    val colorTemperature: String? = null,
+    val colorDescription: String? = null,
+    val twoColorsThatMatch: List<Color>? = null,
+    val colorTerminology: String? = null
+)
 
-@Entity
-data class Colors(
-
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id: Long,
-    val name: String,
-    val hexCode: String,
-    val rgbCode: String,
-    val rybPercentages: String,
-    val colorTemperature: String,
-    val colorDescription: String,
-    val twoHexOfColorsThatMatch: String,
-    val colorTerminology: String
-
+data class Rgb(
+    val red: Double,
+    val green: Double,
+    val blue: Double,
+)
+data class Ryb(
+    val red: Double,
+    val yellow: Double,
+    val blue: Double,
 )

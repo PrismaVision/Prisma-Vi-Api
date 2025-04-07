@@ -12,12 +12,12 @@ public class GeminiController {
 
     private final GeminiService geminiService;
 
-    @Autowired
-    private ColorsService colorsService;
+    private final ColorsService colorsService;
 
     @Autowired
-    public GeminiController(GeminiService geminiService) {
+    public GeminiController(GeminiService geminiService, ColorsService colorsService) {
         this.geminiService = geminiService;
+        this.colorsService = colorsService;
     }
 
     @PostMapping("/mock/search-color")

@@ -14,10 +14,10 @@ class GlobalApiController {
     fun isApiRunning(): ResponseEntity<String> {
         val gifUrl: String = "https://i0.wp.com/motiongraphicsphoebe.wordpress.com/wp-content/uploads/2018/10/loading-animations-preloader-gifs-ui-ux-effects-18.gif?w=1000&h=&ssl=1"
         val html: String =
-            "<body style=\"padding: 0; margin: 0;\">\n" +
+            "<body style=\"padding: 0; margin: 0; user-select: none;\">\n" +
                     "    <div style=\"width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column;\">\n" +
                     "        <H1>Service is running</H1>\n" +
-                    "        <img src=\"${gifUrl}\" alt=\"Running\">\n" +
+                    "        <img src=\"${gifUrl}\" alt=\"Running\" style=\"pointer-events: none;\">\n" +
                     "    </div>\n" +
                     "</body>"
         return ResponseEntity(html, HttpStatus.OK)

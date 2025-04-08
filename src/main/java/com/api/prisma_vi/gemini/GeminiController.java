@@ -50,18 +50,7 @@ public class GeminiController {
     }
 
     @PostMapping("/search-color")
-    public ResponseEntity<?> generate(@RequestBody String hex) {
-        try{colorsService.validateHexColor(hex);}
-        catch (InvalidHexadecimalException e){
-         return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-
-        return ResponseEntity.ok().body(
-                geminiService.responseToColorView(
-                        geminiService.formatResponse(
-                                geminiService.generateContent(
-                                        geminiService.generatePrompt(hex.trim()))))
-                );
+    public ResponseEntity<?> searchColor(@RequestBody String hex) {
+        return geminiService.validatedSearchColor(hex);
     }
 }

@@ -1,4 +1,4 @@
-package com.api.prisma_vi.colors
+package com.api.prisma_vi.color
 
 class Color(
     val name: String? = null,

@@ -1,7 +1,7 @@
 package com.api.prisma_vi.gemini;
 
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
-import com.api.prisma_vi.colors.ColorsService;
+import com.api.prisma_vi.color.ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,18 @@ public class GeminiController {
 
     private final GeminiService geminiService;
 
-    private final ColorsService colorsService;
+    private final ColorService colorService;
 
     @Autowired
-    public GeminiController(GeminiService geminiService, ColorsService colorsService) {
+    public GeminiController(GeminiService geminiService, ColorService colorService) {
         this.geminiService = geminiService;
-        this.colorsService = colorsService;
+        this.colorService = colorService;
     }
 
     @PostMapping("/mock/search-color")
     public ResponseEntity<?> mockSearchColor(@RequestBody String hex){
-        try{colorsService.validateHexColor(hex);}
+        try{
+            colorService.validateHexColor(hex);}
         catch (InvalidHexadecimalException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

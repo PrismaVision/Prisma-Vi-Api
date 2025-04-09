@@ -1,4 +1,4 @@
-package com.api.prisma_vi.colors;
+package com.api.prisma_vi.color;
 
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.regex.Pattern;
 
 @Service
-public class ColorsService {
+public class ColorService {
     private static final Pattern HEX_PATTERN = Pattern.compile("^#?([0-9A-F]{6}|[0-9A-F]{3})$");
     private static final double MIN_CONTRAST_RATIO = 4.5;
 

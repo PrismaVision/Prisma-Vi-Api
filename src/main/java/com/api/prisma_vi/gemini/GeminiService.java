@@ -1,10 +1,10 @@
 package com.api.prisma_vi.gemini;
 
-import com.api.prisma_vi.colors.ColorsService;
+import com.api.prisma_vi.color.ColorService;
 import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
-import com.api.prisma_vi.colors.ColorResponseWrapper;
-import com.api.prisma_vi.colors.ColorsForm;
+import com.api.prisma_vi.color.ColorResponseWrapper;
+import com.api.prisma_vi.color.ColorForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -20,14 +20,14 @@ public class GeminiService {
 
     private static final Logger logger = LoggerFactory.getLogger(GeminiService.class);
 
-    private final ColorsService colorsService;
+    private final ColorService colorService;
     private final GeminiClient geminiClient;
 
     @Value("${gemini.api.token}")
     private String apiToken;
 
-    public GeminiService(ColorsService colorsService, GeminiClient geminiClient) {
-        this.colorsService = colorsService;
+    public GeminiService(ColorService colorService, GeminiClient geminiClient) {
+        this.colorService = colorService;
         this.geminiClient = geminiClient;
     }
 
@@ -36,7 +36,7 @@ public class GeminiService {
 
         String[] languages = {"pt-br","en-eu"};
 
-        ColorsForm object = new ColorsForm();
+        ColorForm object = new ColorForm();
 
         return "considering the hex: " + hex
                 + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require: "
@@ -84,7 +84,8 @@ public class GeminiService {
     }
 
     public ResponseEntity<?> validatedSearchColor(String hex){
-        try {colorsService.validateHexColor(hex);}
+        try {
+            colorService.validateHexColor(hex);}
         catch (InvalidHexadecimalException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

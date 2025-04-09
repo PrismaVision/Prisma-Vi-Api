@@ -1,4 +1,4 @@
-package com.api.prisma_vi.colors
+package com.api.prisma_vi.color
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

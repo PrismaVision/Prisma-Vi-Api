@@ -128,8 +128,8 @@ public class ColorsService {
         };
     }
 
-    private double[] rgbToHslArray(int r, int g, int b) {
-        double rNorm = r / 255.0, gNorm = g / 255.0, bNorm = b / 255.0;
+    private double[] rgbToHslArray(Rgb rgb) {
+        double rNorm = rgb.getRed() / 255.0, gNorm = rgb.getGreen() / 255.0, bNorm = rgb.getBlue() / 255.0;
         double max = Math.max(rNorm, Math.max(gNorm, bNorm));
         double min = Math.min(rNorm, Math.min(gNorm, bNorm));
         double h, s, l = (max + min) / 2.0;
@@ -156,7 +156,7 @@ public class ColorsService {
 
     public String getComplementaryColor(String hex) {
         Rgb rgb = hexToRGB(hex);
-        double[] hsl = rgbToHslArray(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
+        double[] hsl = rgbToHslArray(rgb);
 
         hsl[0] = (hsl[0] + 180) % 360;
 

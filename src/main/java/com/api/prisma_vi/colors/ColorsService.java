@@ -80,4 +80,10 @@ public class ColorsService {
         double l2 = Math.min(luminance1, luminance2);
         return (l1 + 0.05) / (l2 + 0.05);
     }
+    public boolean isAccessibleOnWhite(int r, int g, int b) {
+        double colorLuminance = calculateLuminance(r, g, b);
+        double whiteLuminance = calculateLuminance(255, 255, 255); // sempre 1.0
+        double contrast = calculateContrast(colorLuminance, whiteLuminance);
+        return contrast >= MIN_CONTRAST_RATIO;
+    }
 }

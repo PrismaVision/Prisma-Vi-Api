@@ -75,4 +75,9 @@ public class ColorsService {
         );
     }
 
+    public double calculateContrast(double luminance1, double luminance2) {
+        double l1 = Math.max(luminance1, luminance2);
+        double l2 = Math.min(luminance1, luminance2);
+        return (l1 + 0.05) / (l2 + 0.05);
+    }
 }

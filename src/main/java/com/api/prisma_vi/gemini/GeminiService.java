@@ -1,9 +1,10 @@
 package com.api.prisma_vi.gemini;
 
+import com.api.prisma_vi.colors.ColorsService;
+import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import com.api.prisma_vi.colors.ColorResponseWrapper;
 import com.api.prisma_vi.colors.ColorsForm;
-import com.api.prisma_vi.colors.ColorsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

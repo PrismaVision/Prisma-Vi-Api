@@ -41,6 +41,38 @@ public class ColorsService {
         return new int[]{r, g, b};
     }
 
+    public String rgbToHSL(int r, int g, int b) {
+        double rNorm = r / 255.0;
+        double gNorm = g / 255.0;
+        double bNorm = b / 255.0;
 
+        double max = Math.max(rNorm, Math.max(gNorm, bNorm));
+        double min = Math.min(rNorm, Math.max(gNorm, bNorm));
+        double h, s, l;
+        h = s = l = (max + min) / 2;
+
+        if (max == min) {
+            h = s = 0; // achromatic
+        } else {
+            double d = max - min;
+            s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
+
+            if (max == rNorm) {
+                h = ((gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0));
+            } else if (max == gNorm) {
+                h = ((bNorm - rNorm) / d + 2);
+            } else {
+                h = ((rNorm - gNorm) / d + 4);
+            }
+
+            h /= 6.0;
+        }
+
+        return String.format("%d, %d%%, %d%%",
+                (int) Math.round(h * 360),
+                (int) Math.round(s * 100),
+                (int) Math.round(l * 100)
+        );
+    }
 
 }

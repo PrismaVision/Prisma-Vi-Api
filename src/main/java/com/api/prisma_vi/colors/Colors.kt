@@ -4,7 +4,7 @@ class Color(
     val name: String? = null,
     val hexCode: String? = null,
     val rgb: Rgb? = null,
-    val ryb: Ryb? = null,
+    val hsl: String? = null,
     val colorTemperature: String? = null,
     val colorDescription: String? = null,
     val twoColorsThatMatch: List<Color>? = null,
@@ -12,12 +12,7 @@ class Color(
 )
 
 data class Rgb(
-    val red: Double,
-    val green: Double,
-    val blue: Double,
-)
-data class Ryb(
-    val red: Double,
-    val yellow: Double,
-    val blue: Double,
+    val red: Int,
+    val green: Int,
+    val blue: Int,
 )

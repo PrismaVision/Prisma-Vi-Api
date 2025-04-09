@@ -1,4 +1,4 @@
-package com.api.prisma_vi.globalApi
+package com.api.prisma_vi.utils.globalApi
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

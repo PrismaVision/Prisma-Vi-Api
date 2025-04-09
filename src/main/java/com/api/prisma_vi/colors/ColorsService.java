@@ -1,6 +1,6 @@
 package com.api.prisma_vi.colors;
 
-import com.api.prisma_vi.apiError.InvalidHexadecimalException;
+import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;

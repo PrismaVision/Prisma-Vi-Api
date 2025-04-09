@@ -163,4 +163,21 @@ public class ColorsService {
         int[] complementaryRGB = hslToRgb(hsl[0], hsl[1], hsl[2]);
         return rgbToHex(complementaryRGB[0], complementaryRGB[1], complementaryRGB[2]);
     }
+
+    public String inferColorCategory(String hex) {
+        Rgb rgb = hexToRGB(hex);
+        double[] hsl = rgbToHslArray(rgb);
+        double hue = hsl[0];
+
+        if ((hue >= 0 && hue <= 30) || (hue >= 330 && hue <= 360)) return "Primária (Vermelho)";
+        if (hue >= 40 && hue <= 65) return "Primária (Amarelo)";
+        if (hue >= 210 && hue <= 270) return "Primária (Azul)";
+
+        if (hue > 30 && hue < 40) return "Secundária (Laranja)";
+        if (hue >= 90 && hue <= 150) return "Secundária (Verde)";
+        if (hue >= 270 && hue < 330) return "Secundária (Roxo)";
+
+        return "Terciária";
+    }
+
 }

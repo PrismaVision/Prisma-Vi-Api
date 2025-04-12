@@ -25,8 +25,8 @@ data class Rgb(
 
 data class Hsl(
     val hue: Int,
-    val saturation: String,  // Ex: "100%"
-    val lightness: String    // Ex: "27%"
+    val saturation: String,
+    val lightness: String
 )
 
 data class SimpleColor(

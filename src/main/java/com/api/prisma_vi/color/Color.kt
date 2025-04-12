@@ -1,18 +1,36 @@
 package com.api.prisma_vi.color
 
-class Color(
-    val name: String? = null,
-    val hexCode: String? = null,
-    val rgb: Rgb? = null,
-    val hsl: String? = null,
-    val colorTemperature: String? = null,
-    val colorDescription: String? = null,
-    val twoColorsThatMatch: List<Color>? = null,
-    val colorTerminology: String? = null
+data class Color(
+    val name: String,
+    val hex: String,
+    val rgb: Rgb,
+    val hsl: Hsl,
+    val luminance: Double,
+    val isAccessibleOnWhite: Boolean,
+    val isAccessibleOnBlack: Boolean,
+    val description: String,
+    val psychologyTags: List<String>,
+    val colorPalette: List<SimpleColor>,
+    val complementaryColors: List<String>,
+    val hexVariations: List<String>,
+    val colorCategory: String,
+    val designUsageSuggestions: List<String>
 )
 
 data class Rgb(
     val red: Int,
     val green: Int,
-    val blue: Int,
+    val blue: Int
 )
+
+data class Hsl(
+    val hue: Int,
+    val saturation: String,  // Ex: "100%"
+    val lightness: String    // Ex: "27%"
+)
+
+data class SimpleColor(
+    val name: String,
+    val hex: String
+)
+

@@ -1,21 +1,47 @@
 package com.api.prisma_vi.color
 
 data class ColorForm(val name: String?,
-                     val hexCode: String,
-                     val rgbCode: String?,
-                     val ryb: String?,
-                     val colorTemperature: String?,
-                     val colorDescription: String?,
-                     val twoHexOfColorsThatMatch: String?,
-                     val colorTerminology: String?) {
+                     val description: String?,
+                     val psychologyTags: Array<String>,
+                     val designUsageSuggestions: String?,
+                     val colorPallete: Array<SimpleColor>) {
     constructor() : this(
-        name = "(the name of the closest common color)",
-        hexCode = "(HEX code of color)",
-        rgbCode = "(RGB code of color)",
-        ryb = "(red yellow and blue percentages to make the color with this format: {r: x%, y: x%, b: x%})",
-        colorTemperature = "(hot, cold or neutral)",
-        colorDescription = "(a brief description of the color [color name], including its visual characteristics, how it is formed and what it conveys in terms of feelings, environments or objects that represent it, as well as examples of where this color can be found in nature or in the everyday)",
-        twoHexOfColorsThatMatch = "(two colors that match with the main color in HEX code)",
-        colorTerminology = "(primary, secondary, tertiary, neutral or terrestrial)"
+        name = "Descriptive name of the color, e.g. 'Navy Blue'",
+        description = "Brief emotional and cultural description of the color. e.g. 'Evokes seriousness and confidence.'",
+        psychologyTags = arrayOf("e.g. trust", "e.g. seriousness", "e.g. stability"),
+        designUsageSuggestions = "Suggestions for use in design e.g. 'Useful as a background color in corporate apps'",
+        colorPallete = arrayOf(
+            SimpleColor(
+                name = "Name of the complementary or analogous color. e.g. 'Light Blue'",
+                hex = "e.g. #ADD8E6"
+            ),
+            SimpleColor(
+                name = "Name another of the complementary or analogous color. e.g. 'Azul Claro'",
+                hex = "e.g. #ADD8E6"
+            )
+        )
     )
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ColorForm
+
+        if (name != other.name) return false
+        if (description != other.description) return false
+        if (!psychologyTags.contentEquals(other.psychologyTags)) return false
+        if (designUsageSuggestions != other.designUsageSuggestions) return false
+        if (!colorPallete.contentEquals(other.colorPallete)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name?.hashCode() ?: 0
+        result = 31 * result + (description?.hashCode() ?: 0)
+        result = 31 * result + psychologyTags.contentHashCode()
+        result = 31 * result + (designUsageSuggestions?.hashCode() ?: 0)
+        result = 31 * result + colorPallete.hashCode()
+        return result
+    }
 }

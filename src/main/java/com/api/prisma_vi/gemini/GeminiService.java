@@ -38,11 +38,25 @@ public class GeminiService {
 
         ColorForm object = new ColorForm();
 
-        return "considering the hex: " + hex
-                + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require: "
-                + object
-                + " and translate the values to: "
-                + languages[1];
+        return """
+        You are an expert in color psychology, UI/UX, and design semantics.
+
+        Given the hexadecimal color code: %s
+        
+        Please fill the following JSON object with real and meaningful data about this color:
+        - Describe its psychological and emotional characteristics.
+        - Suggest use cases in design and branding.
+        - Name the color appropriately.
+        - Provide at least two related colors (complementary or analogous) with their names and HEX values.
+        - The answers should be well-written and translated into English (en-US).
+        - The entire response should be written in: %s
+        
+        Use the structure below as a template for the expected output (replace all example values):
+
+        %s
+
+        Return only the JSON object. Do not add explanations or introductions.
+        """.formatted(hex, languages[1], object.toString());
     }
 
 

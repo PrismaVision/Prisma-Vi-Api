@@ -3,6 +3,8 @@ package com.api.prisma_vi.color;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -27,6 +29,23 @@ public class ColorService {
         } else {
             return Math.pow((cNorm + 0.055) / 1.055, 2.4);
         }
+    }
+
+    public List<String> getHexVariations(String hex) {
+        Rgb rgb = hexToRGB(hex);
+        double[] hsl = rgbToHslArray(rgb);
+
+        List<String> variations = new ArrayList<>();
+
+        double[] lightnessModifiers = {-0.1, 0.1, 0.2};
+
+        for (double mod : lightnessModifiers) {
+            double newL = Math.max(0, Math.min(1, hsl[2] + mod));
+            int[] newRgb = hslToRgb(hsl[0], hsl[1], newL);
+            variations.add(rgbToHex(newRgb[0], newRgb[1], newRgb[2]));
+        }
+
+        return variations;
     }
 
     public Rgb hexToRGB(String hex) {

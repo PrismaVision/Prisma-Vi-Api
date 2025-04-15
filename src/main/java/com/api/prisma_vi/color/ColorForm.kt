@@ -44,4 +44,25 @@ data class ColorForm(val name: String?,
         result = 31 * result + colorPallete.hashCode()
         return result
     }
+    override fun toString(): String {
+        return """
+        {
+          "name": "$name",
+          "description": "$description",
+          "psychologyTags": [
+            ${psychologyTags.joinToString(",\n            ") { "\"$it\"" }}
+          ],
+          "designUsageSuggestions": "$designUsageSuggestions",
+          "colorPallete": [
+            ${colorPallete.joinToString(",\n            ") {
+            """{
+              "name": "${it.name}",
+              "hex": "${it.hex}"
+            }"""
+        }}
+          ]
+        }
+    """.trimIndent()
+    }
+
 }

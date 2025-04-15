@@ -13,7 +13,7 @@ data class Color(
     @JsonProperty val description: String,
     @JsonProperty val psychologyTags: List<String>,
     @JsonProperty val colorPalette: List<SimpleColor>,
-    @JsonProperty val complementaryColors: List<String>,
+    @JsonProperty val complementaryColor: String,
     @JsonProperty val hexVariations: List<String>,
     @JsonProperty val colorCategory: String,
     @JsonProperty val designUsageSuggestions: List<String>

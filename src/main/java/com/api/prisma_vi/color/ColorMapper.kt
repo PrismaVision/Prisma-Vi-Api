@@ -16,9 +16,9 @@ object ColorMapper {
                 description = form.description ?: "Sem descrição.",
                 psychologyTags = form.psychologyTags.toList(),
                 colorPalette = form.colorPallete.map { SimpleColor(it.name, it.hex) },
-                complementaryColors = emptyList(),
-                hexVariations = emptyList(),
-                colorCategory = "",
+                complementaryColor = colorService.getComplementaryColor(hex),
+                hexVariations = colorService.getHexVariations(hex),
+                colorCategory = colorService.inferColorCategory(hex),
                 designUsageSuggestions = form.designUsageSuggestions?.split("\n") ?: emptyList()
             )
         )

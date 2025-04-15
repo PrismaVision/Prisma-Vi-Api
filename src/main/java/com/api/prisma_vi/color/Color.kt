@@ -1,32 +1,28 @@
 package com.api.prisma_vi.color
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Color(
-    val name: String,
-    val hex: String,
-    val rgb: Rgb,
-    val hsl: Hsl,
-    val luminance: Double,
-    val isAccessibleOnWhite: Boolean,
-    val isAccessibleOnBlack: Boolean,
-    val description: String,
-    val psychologyTags: List<String>,
-    val colorPalette: List<SimpleColor>,
-    val complementaryColors: List<String>,
-    val hexVariations: List<String>,
-    val colorCategory: String,
-    val designUsageSuggestions: List<String>
+    @JsonProperty val name: String,
+    @JsonProperty val hex: String,
+    @JsonProperty val rgb: Rgb,
+    @JsonProperty val hsl: String,
+    @JsonProperty val luminance: Double,
+    @JsonProperty val isAccessibleOnWhite: Boolean,
+    @JsonProperty val isAccessibleOnBlack: Boolean,
+    @JsonProperty val description: String,
+    @JsonProperty val psychologyTags: List<String>,
+    @JsonProperty val colorPalette: List<SimpleColor>,
+    @JsonProperty val complementaryColors: List<String>,
+    @JsonProperty val hexVariations: List<String>,
+    @JsonProperty val colorCategory: String,
+    @JsonProperty val designUsageSuggestions: List<String>
 )
 
 data class Rgb(
-    val red: Int,
-    val green: Int,
-    val blue: Int
-)
-
-data class Hsl(
-    val hue: Int,
-    val saturation: String,
-    val lightness: String
+    @JsonProperty val red: Int,
+    @JsonProperty val green: Int,
+    @JsonProperty val blue: Int
 )
 
 data class SimpleColor(

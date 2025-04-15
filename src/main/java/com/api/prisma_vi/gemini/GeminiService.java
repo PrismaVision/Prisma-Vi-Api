@@ -3,7 +3,7 @@ package com.api.prisma_vi.gemini;
 import com.api.prisma_vi.color.ColorService;
 import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
-import com.api.prisma_vi.color.ColorResponseWrapper;
+import com.api.prisma_vi.color.ColorView;
 import com.api.prisma_vi.color.ColorForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,15 +70,15 @@ public class GeminiService {
             return "Unexpected error occurred";
         }
     }
-    public ColorResponseWrapper responseToColorView(String jsonResponse) {
+    public ColorView responseToColorView(String jsonResponse) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonResponse, ColorResponseWrapper.class);
+            return objectMapper.readValue(jsonResponse, ColorView.class);
         } catch (JsonProcessingException e) {
             logger.error("Error processing JSON response in responseToColorView: {}", e.getMessage(), e);
             return null;
         } catch (Exception e) {
-            logger.error("Unexpected error occurred while converting response to ColorResponseWrapper: {}", e.getMessage(), e);
+            logger.error("Unexpected error occurred while converting response to ColorView: {}", e.getMessage(), e);
             return null;
         }
     }

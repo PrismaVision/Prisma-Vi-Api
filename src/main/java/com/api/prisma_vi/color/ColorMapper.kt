@@ -1,8 +1,11 @@
 package com.api.prisma_vi.color
 
-object ColorMapper {
+import org.springframework.stereotype.Component
 
-    fun formToView(form: ColorForm, hex: String, colorService: ColorService): ColorView{
+@Component
+class ColorMapper(private val colorService: ColorService) {
+
+    fun formToView(form: ColorForm, hex: String): ColorView{
         val rgb = colorService.hexToRGB(hex)
         val view: ColorView = ColorView(
             Color(

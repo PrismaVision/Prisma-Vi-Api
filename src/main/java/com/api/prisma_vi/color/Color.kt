@@ -26,7 +26,7 @@ data class Rgb(
 )
 
 data class SimpleColor(
-    val name: String,
-    val hex: String
+    @JsonProperty("name") val name: String,
+    @JsonProperty("hex") val hex: String
 )
 

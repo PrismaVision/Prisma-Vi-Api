@@ -12,43 +12,10 @@ public class GeminiController {
 
     private final GeminiService geminiService;
 
-    private final ColorService colorService;
-
-    @Autowired
     public GeminiController(GeminiService geminiService, ColorService colorService) {
         this.geminiService = geminiService;
-        this.colorService = colorService;
     }
 
-    @PostMapping("/mock/search-color")
-    public ResponseEntity<?> mockSearchColor(@RequestBody String hex){
-        try{
-            colorService.validateHexColor(hex);}
-        catch (InvalidHexadecimalException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        String jsonResponse = "{\n" +
-                "\"Color\": {\n" +
-                "\"name\": \"Deep Forest Green\",\n" +
-                "\"hexCode\": \""+hex+"\",\n" +
-                "\"rgbCode\": \"3, 10, 0\",\n" +
-                "\"rybPercentages\": {\n" +
-                "\"r\": \"0%\",\n" +
-                "\"y\": \"20%\",\n" +
-                "\"b\": \"80%\"\n" +
-                "},\n" +
-                "\"colorTemperature\": \"cool\",\n" +
-                "\"colorDescription\": \"This color evokes feelings of peace, tranquility, and nature.  It's reminiscent of deep forests and lush vegetation.\",\n" +
-                "\"twoHexOfColorsThatMatch\": [\n" +
-                "\"#001f00\",\n" +
-                "\"#002500\"\n" +
-                "],\n" +
-                "\"colorTerminology\": \"tertiary\"\n" +
-                "}\n" +
-                "}";
-
-        return ResponseEntity.ok(geminiService.responseToColorView(jsonResponse));
-    }
 
     @PostMapping("/search-color")
     public ResponseEntity<?> searchColor(@RequestBody String hex) {

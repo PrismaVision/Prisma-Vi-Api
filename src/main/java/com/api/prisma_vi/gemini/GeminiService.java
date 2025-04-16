@@ -1,6 +1,8 @@
 package com.api.prisma_vi.gemini;
 
+import com.api.prisma_vi.color.ColorMapper;
 import com.api.prisma_vi.color.ColorService;
+import com.api.prisma_vi.color.ColorView;
 import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import com.api.prisma_vi.color.ColorForm;
@@ -20,13 +22,15 @@ public class GeminiService {
 
     private final ColorService colorService;
     private final GeminiClient geminiClient;
+    private final ColorMapper colorMapper;
 
     @Value("${gemini.api.token}")
     private String apiToken;
 
-    public GeminiService(ColorService colorService, GeminiClient geminiClient) {
+    public GeminiService(ColorService colorService, GeminiClient geminiClient, ColorMapper colorMapper) {
         this.colorService = colorService;
         this.geminiClient = geminiClient;
+        this.colorMapper = colorMapper;
     }
 
 
@@ -54,7 +58,7 @@ public class GeminiService {
         %s
 
         Return only the JSON object. Do not add explanations or introductions.
-        """.formatted(hex, languages[1], object.toString());
+        """.formatted(hex, languages[0], object.toString());
     }
 
 
@@ -94,6 +98,10 @@ public class GeminiService {
         }
     }
 
+    private ColorView colorFormToColorView(ColorForm form, String hex){
+        return colorMapper.formToView(form, hex);
+    }
+
     public ResponseEntity<?> validatedSearchColor(String hex){
         try {
             colorService.validateHexColor(hex);}
@@ -101,12 +109,16 @@ public class GeminiService {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().body(
-                responseToColorForm(
-                        formatResponse(
-                            generateContent(
-                                generatePrompt(hex.trim()))
+                colorFormToColorView(
+                        responseToColorForm(
+                                formatResponse(
+                                        generateContent(
+                                                generatePrompt(hex.trim()))
+                                )
                         )
+                        ,hex
                 )
+
         );
     }
 }

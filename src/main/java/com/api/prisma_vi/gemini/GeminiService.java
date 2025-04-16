@@ -3,9 +3,7 @@ package com.api.prisma_vi.gemini;
 import com.api.prisma_vi.color.ColorService;
 import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
-import com.api.prisma_vi.color.ColorView;
 import com.api.prisma_vi.color.ColorForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,28 +70,27 @@ public class GeminiService {
     }
 
     private String formatResponse(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            GeminiResponseBody response = objectMapper.readValue(jsonResponse, GeminiResponseBody.class);
-            return response.candidates().get(0).content().parts().get(0).text();
-        } catch (JsonProcessingException e) {
-            logger.error("Error processing JSON response: {}", e.getMessage(), e);
-            return "Error processing the response: Invalid JSON format";
+            ObjectMapper mapper = new ObjectMapper();
+            GeminiResponseBody root = mapper.readValue(jsonResponse, GeminiResponseBody.class);
+            return root.candidates()
+                    .getFirst()
+                    .content()
+                    .parts()
+                    .getFirst()
+                    .text();
+
         } catch (Exception e) {
-            logger.error("Unexpected error occurred while processing response: {}", e.getMessage(), e);
-            return "Unexpected error occurred";
+            System.out.println(e.getMessage());
+            return null;
         }
     }
-    public ColorView responseToColorView(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public ColorForm responseToColorForm(String jsonResponse) {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonResponse, ColorView.class);
-        } catch (JsonProcessingException e) {
-            logger.error("Error processing JSON response in responseToColorView: {}", e.getMessage(), e);
-            return null;
+            return mapper.readValue(jsonResponse, ColorForm.class);
         } catch (Exception e) {
-            logger.error("Unexpected error occurred while converting response to ColorView: {}", e.getMessage(), e);
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -104,12 +101,12 @@ public class GeminiService {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().body(
-                //responseToColorView(
-                        //formatResponse(
+                responseToColorForm(
+                        formatResponse(
                             generateContent(
                                 generatePrompt(hex.trim()))
-                        //)
-                //)
+                        )
+                )
         );
     }
 }

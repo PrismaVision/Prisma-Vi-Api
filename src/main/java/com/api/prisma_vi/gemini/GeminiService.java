@@ -85,8 +85,7 @@ public class GeminiService {
                     .text();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
     public ColorForm responseToColorForm(String jsonResponse) {

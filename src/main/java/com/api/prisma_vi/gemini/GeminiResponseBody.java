@@ -5,7 +5,8 @@ import java.util.List;
 public record GeminiResponseBody(
         List<Candidate> candidates,
         UsageMetadata usageMetadata,
-        String modelVersion
+        String modelVersion,
+        String responseId
 ) {}
 
 record Candidate(

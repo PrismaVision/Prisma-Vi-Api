@@ -1,6 +1,5 @@
 package com.api.prisma_vi.user;
 
-import com.api.prisma_vi.palette.Palette;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,10 +30,6 @@ public class Users implements UserDetails {
 
     @Column(nullable = false)
     private String password;
-
-    @Column
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Palette> palettes;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

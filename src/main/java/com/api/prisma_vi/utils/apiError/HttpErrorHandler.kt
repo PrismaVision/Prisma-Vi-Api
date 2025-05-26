@@ -1,4 +1,4 @@
-package com.api.prisma_vi.apiError
+package com.api.prisma_vi.utils.apiError
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

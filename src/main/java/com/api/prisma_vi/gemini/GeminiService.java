@@ -1,10 +1,16 @@
 package com.api.prisma_vi.gemini;
 
-import com.api.prisma_vi.colors.ColorResponseWrapper;
-import com.api.prisma_vi.colors.ColorsForm;
+import com.api.prisma_vi.color.ColorMapper;
+import com.api.prisma_vi.color.ColorService;
+import com.api.prisma_vi.color.ColorView;
+import com.api.prisma_vi.gemini.feign.GeminiClient;
+import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
+import com.api.prisma_vi.color.ColorForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -12,43 +18,51 @@ import java.util.Collections;
 @Service
 public class GeminiService {
 
+    private static final Logger logger = LoggerFactory.getLogger(GeminiService.class);
+
+    private final ColorService colorService;
     private final GeminiClient geminiClient;
+    private final ColorMapper colorMapper;
 
     @Value("${gemini.api.token}")
     private String apiToken;
 
-    @Autowired
-    public GeminiService(GeminiClient geminiClient) {
+    public GeminiService(ColorService colorService, GeminiClient geminiClient, ColorMapper colorMapper) {
+        this.colorService = colorService;
         this.geminiClient = geminiClient;
+        this.colorMapper = colorMapper;
     }
 
-    public String generatePrompt(String hex){
+
+    private String generatePrompt(String hex){
 
         String[] languages = {"pt-br","en-eu"};
 
-        ColorsForm object = new ColorsForm(
-                "(the name of the closest common color)",
-                "(HEX code of color)",
-                "(RGB code of color)",
-                "(red yellow and blue percentages to make the color with this format: {r: x%, y: x%, b: x%})",
-                "(hot, cold or neutral)",
-                "(a brief description of the color [color name], including its visual characteristics, how it is formed and what it conveys in terms of feelings, environments or objects that represent it, as well as examples of where this color can be found in nature or in the everyday)",
-                "(two colors that match with the main color in HEX code)",
-                "(primary, secondary, tertiary, neutral or terrestrial)"
-        );
+        ColorForm object = new ColorForm();
 
-        String order = "considering the color: "
-                + hex
-                + " fill the object by replacing the values in parentheses according to what the values in parentheses and the require:\n"
-                + object.toString()
-                + "\nand translate the values to: "
-                + languages[1];
+        return """
+        You are an expert in color psychology, UI/UX, and design semantics.
 
-        return order;
+        Given the hexadecimal color code: %s
+        
+        Please fill the following JSON object with real and meaningful data about this color:
+        - Describe its psychological and emotional characteristics.
+        - Suggest use cases in design and branding.
+        - Name the color appropriately.
+        - Provide at least two related colors (complementary or analogous) with their names and HEX values.
+        - The answers should be well-written and translated into English (en-US).
+        - The entire response should be written in: %s
+        
+        Use the structure below as a template for the expected output (replace all example values):
+
+        %s
+
+        Return only the JSON object. Do not add explanations or introductions.
+        """.formatted(hex, languages[0], object.toString());
     }
 
 
-    public String generateContent(String prompt) {
+    private String generateContent(String prompt) {
         var part = new GeminiRequestBody.Part(prompt);
         var content = new GeminiRequestBody.Content(Collections.singletonList(part));
         var generationConfig = new GeminiRequestBody.GenerationConfig("application/json");
@@ -59,23 +73,52 @@ public class GeminiService {
         return geminiClient.searchColor(geminiRequestBody, apiToken).getBody();
     }
 
-    public String formatResponse(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    private String formatResponse(String jsonResponse) {
         try {
-            GeminiResponseBody response = objectMapper.readValue(jsonResponse, GeminiResponseBody.class);
-            return response.candidates().get(0).content().parts().get(0).text();
+            ObjectMapper mapper = new ObjectMapper();
+            GeminiResponseBody root = mapper.readValue(jsonResponse, GeminiResponseBody.class);
+            return root.candidates()
+                    .getFirst()
+                    .content()
+                    .parts()
+                    .getFirst()
+                    .text();
+
         } catch (Exception e) {
-            return e.toString();
+            throw new RuntimeException(e);
         }
     }
-    public ColorResponseWrapper responseToColorView(String jsonResponse) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public ColorForm responseToColorForm(String jsonResponse) {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(jsonResponse, ColorResponseWrapper.class);
+            return mapper.readValue(jsonResponse, ColorForm.class);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
+    }
+
+    private ColorView colorFormToColorView(ColorForm form, String hex){
+        return colorMapper.formToView(form, hex);
+    }
+
+    public ResponseEntity<?> validatedSearchColor(String hex){
+        try {
+            colorService.validateHexColor(hex);}
+        catch (InvalidHexadecimalException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(
+                colorFormToColorView(
+                        responseToColorForm(
+                                formatResponse(
+                                        generateContent(
+                                                generatePrompt(hex.trim()))
+                                )
+                        )
+                        ,hex
+                )
+
+        );
     }
 }
 

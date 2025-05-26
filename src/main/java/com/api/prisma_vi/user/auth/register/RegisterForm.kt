@@ -1,4 +1,4 @@
-package com.api.prisma_vi.auth.register
+package com.api.prisma_vi.user.auth.register
 
 import com.api.prisma_vi.user.UserRole
 import jakarta.validation.constraints.Email

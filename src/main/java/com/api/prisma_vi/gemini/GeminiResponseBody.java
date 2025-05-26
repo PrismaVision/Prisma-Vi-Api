@@ -5,35 +5,33 @@ import java.util.List;
 public record GeminiResponseBody(
         List<Candidate> candidates,
         UsageMetadata usageMetadata,
-        String modelVersion
-) {
+        String modelVersion,
+        String responseId
+) {}
 
-    public record Candidate(
-            Content content,
-            String finishReason,
-            double avgLogprobs,
-            List<SafetyRating> safetyRatings
-    ) {}
+record Candidate(
+        Content content,
+        String finishReason,
+        double avgLogprobs) {}
 
-    public record Content(
-            List<Part> parts,
-            String role
-    ) {}
+record Content(
+        List<Part> parts,
+        String role
+) {}
 
-    public record Part(
-            String text
-    ) {}
+record Part(
+        String text
+) {}
 
-    public record SafetyRating(
-            String category,
-            String probability
-    ) {}
+record UsageMetadata(
+        int promptTokenCount,
+        int candidatesTokenCount,
+        int totalTokenCount,
+        List<TokenDetails> promptTokensDetails,
+        List<TokenDetails> candidatesTokensDetails
+) {}
 
-    public record UsageMetadata(
-            int promptTokenCount,
-            int candidatesTokenCount,
-            int totalTokenCount
-    ) {}
-}
-
-
+record TokenDetails(
+        String modality,
+        int tokenCount
+) {}

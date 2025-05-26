@@ -1,4 +1,4 @@
-package com.api.prisma_vi.auth.login
+package com.api.prisma_vi.user.auth.login
 
 import jakarta.validation.constraints.NotBlank
 

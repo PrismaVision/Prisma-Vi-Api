@@ -1,26 +1,33 @@
 package com.api.prisma_vi.user;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
-@Getter
 @Entity
 @Table
-@NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return Objects.equals(id, users.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 
     @Column(nullable = false)
     private String nickName;
@@ -34,6 +41,9 @@ public class Users implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
+
+    public Users(){
+    }
 
     public Users(String nickName, String email, String password, UserRole role){
 
@@ -59,6 +69,9 @@ public class Users implements UserDetails {
                     new SimpleGrantedAuthority("ROLE_USER"));
         } else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
+    @Override
+    public String getPassword() { return password; }
 
     @Override
     public String getUsername() {

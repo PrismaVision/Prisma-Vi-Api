@@ -30,7 +30,7 @@ public class Users implements UserDetails {
     }
 
     @Column(nullable = false)
-    private String nickName;
+    private String nickname;
 
     @Column(unique = true)
     private String email;
@@ -49,18 +49,18 @@ public class Users implements UserDetails {
     public Users(){
     }
 
-    public Users(String nickName, String email, String password, UserRole role){
+    public Users(String nickname, String email, String password, UserRole role){
 
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.email = email;
         this.password = password;
         this.role = role;
 
     }
 
-    public Users(String nickName, String email, String password){
+    public Users(String nickname, String email, String password){
 
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.email = email;
         this.password = password;
 
@@ -79,7 +79,7 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickName;
+        return nickname;
     }
 
     @Override

@@ -14,7 +14,7 @@ class RegisterService(private val repository: UsersRepository) {
     fun registerUser(data: RegisterForm): ResponseEntity<Any?>{
         return when{
 
-            data.nickName.contains(" ") || data.password.contains(" ") ->
+            data.nickname.contains(" ") || data.password.contains(" ") ->
                 ResponseEntity.status(HttpStatus.CONFLICT).body(RegisterView("Input field can not have spaces"))
 
             (repository.existsByEmail(data.email)) ->
@@ -36,12 +36,12 @@ class RegisterService(private val repository: UsersRepository) {
         val encryptedPassword: String = BCryptPasswordEncoder().encode(data.password)
         repository.save(
             Users(
-                data.nickName,
+                data.nickname,
                 data.email,
                 encryptedPassword,
                 role
             )
         )
-        return RegisterView("${data.nickName} was registered successfully")
+        return RegisterView("${data.nickname} was registered successfully")
     }
 }

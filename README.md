@@ -103,7 +103,7 @@ ___
 Params:
 ```Json
 {
-  "nickName": "",
+  "nickname": "",
   "email":  "",
   "password":  ""
 }

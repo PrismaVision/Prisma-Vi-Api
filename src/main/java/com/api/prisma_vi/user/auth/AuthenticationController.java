@@ -1,8 +1,8 @@
 package com.api.prisma_vi.user.auth;
 
 
-import com.api.prisma_vi.user.auth.login.LoginView;
 import com.api.prisma_vi.user.auth.login.LoginForm;
+import com.api.prisma_vi.user.auth.login.LoginView;
 import com.api.prisma_vi.user.auth.register.RegisterForm;
 import com.api.prisma_vi.user.auth.register.RegisterService;
 import com.api.prisma_vi.infra.security.TokenService;

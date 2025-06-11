@@ -42,6 +42,10 @@ public class Users implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
+    public String getEmail(){
+        return email;
+    }
+
     public Users(){
     }
 

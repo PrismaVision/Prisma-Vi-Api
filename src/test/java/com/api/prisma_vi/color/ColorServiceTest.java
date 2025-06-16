@@ -28,9 +28,9 @@ public class ColorServiceTest {
     @Test
     public void testHexToRGB() {
         Rgb rgb = colorService.hexToRGB("#00008B");
-        assertEquals(0, rgb.getRed());
-        assertEquals(0, rgb.getGreen());
-        assertEquals(139, rgb.getBlue());
+        assertEquals(0, rgb.red());
+        assertEquals(0, rgb.green());
+        assertEquals(139, rgb.blue());
     }
 
     @Test

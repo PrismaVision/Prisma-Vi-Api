@@ -148,7 +148,7 @@ public class ColorService {
     }
 
     private double[] rgbToHslArray(Rgb rgb) {
-        double rNorm = rgb.getRed() / 255.0, gNorm = rgb.getGreen() / 255.0, bNorm = rgb.getBlue() / 255.0;
+        double rNorm = rgb.red() / 255.0, gNorm = rgb.green() / 255.0, bNorm = rgb.blue() / 255.0;
         double max = Math.max(rNorm, Math.max(gNorm, bNorm));
         double min = Math.min(rNorm, Math.min(gNorm, bNorm));
         double h, s, l = (max + min) / 2.0;

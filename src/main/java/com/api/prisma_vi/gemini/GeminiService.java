@@ -7,8 +7,6 @@ import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
 import com.api.prisma_vi.color.ColorForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,19 +16,19 @@ import java.util.Collections;
 @Service
 public class GeminiService {
 
-    private static final Logger logger = LoggerFactory.getLogger(GeminiService.class);
-
     private final ColorService colorService;
     private final GeminiClient geminiClient;
     private final ColorMapper colorMapper;
+    private final ObjectMapper objectMapper;
 
     @Value("${gemini.api.token}")
     private String apiToken;
 
-    public GeminiService(ColorService colorService, GeminiClient geminiClient, ColorMapper colorMapper) {
+    public GeminiService(ColorService colorService, GeminiClient geminiClient, ColorMapper colorMapper, ObjectMapper objectMapper) {
         this.colorService = colorService;
         this.geminiClient = geminiClient;
         this.colorMapper = colorMapper;
+        this.objectMapper = objectMapper;
     }
 
 
@@ -45,12 +43,11 @@ public class GeminiService {
 
         Given the hexadecimal color code: %s
         
-        Please fill the following JSON object with real and meaningful data about this color:
+        fill the following JSON object with real and meaningful data about this color:
         - Describe its psychological and emotional characteristics.
         - Suggest use cases in design and branding.
         - Name the color appropriately.
         - Provide at least two related colors (complementary or analogous) with their names and HEX values.
-        - The answers should be well-written and translated into English (en-US).
         - The entire response should be written in: %s
         
         Use the structure below as a template for the expected output (replace all example values):

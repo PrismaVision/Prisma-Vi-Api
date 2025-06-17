@@ -1,8 +1,5 @@
 package com.api.prisma_vi.color;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public record ColorForm(
         String name,
         String description,
@@ -10,7 +7,6 @@ public record ColorForm(
         String designUsageSuggestions,
         SimpleColor[] colorPallete
 ) {
-    // Construtor alternativo (sem argumentos) com valores padrão
     public ColorForm() {
         this(
                 "Descriptive_name_of_the_color,_e.g._'Navy_Blue'",
@@ -22,25 +18,6 @@ public record ColorForm(
                         new SimpleColor("Name_another_of_the_complementary_or_analogous_color._e.g._'Azul_Claro'", "e.g._#ADD8E6")
                 }
         );
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ColorForm other)) return false;
-        return Objects.equals(name, other.name) &&
-                Objects.equals(description, other.description) &&
-                Arrays.equals(psychologyTags, other.psychologyTags) &&
-                Objects.equals(designUsageSuggestions, other.designUsageSuggestions) &&
-                Arrays.equals(colorPallete, other.colorPallete);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(name, description, designUsageSuggestions);
-        result = 31 * result + Arrays.hashCode(psychologyTags);
-        result = 31 * result + Arrays.hashCode(colorPallete);
-        return result;
     }
 
     @Override
@@ -67,6 +44,6 @@ public record ColorForm(
                 colorPallete[1].name(),
                 colorPallete[1].hex());
 
-        return sb.toString();
+        return sb;
     }
 }

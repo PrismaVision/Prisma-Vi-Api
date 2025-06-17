@@ -22,7 +22,8 @@ public record ColorForm(
 
     @Override
     public String toString() {
-        String sb = """
+
+        return """
         {
           "name": "%s",
           "description": "%s",
@@ -43,7 +44,5 @@ public record ColorForm(
                 colorPallete[0].hex(),
                 colorPallete[1].name(),
                 colorPallete[1].hex());
-
-        return sb;
     }
 }

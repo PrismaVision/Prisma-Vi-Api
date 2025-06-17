@@ -1,12 +1,11 @@
 package com.api.prisma_vi.gemini;
 
-import com.api.prisma_vi.color.ColorMapper;
-import com.api.prisma_vi.color.ColorService;
-import com.api.prisma_vi.color.ColorView;
+import com.api.prisma_vi.color.*;
 import com.api.prisma_vi.gemini.feign.GeminiClient;
 import com.api.prisma_vi.utils.apiError.InvalidHexadecimalException;
-import com.api.prisma_vi.color.ColorForm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import java.util.Collections;
 
 @Service
 public class GeminiService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GeminiService.class);
 
     private final ColorService colorService;
     private final GeminiClient geminiClient;
@@ -30,7 +31,6 @@ public class GeminiService {
         this.colorMapper = colorMapper;
         this.objectMapper = objectMapper;
     }
-
 
     private String generatePrompt(String hex){
 
@@ -67,13 +67,19 @@ public class GeminiService {
                 Collections.singletonList(content),
                 generationConfig
         );
-        return geminiClient.searchColor(geminiRequestBody, apiToken).getBody();
+        ResponseEntity<String> responseEntity = geminiClient.searchColor(geminiRequestBody, apiToken);
+
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            return responseEntity.getBody();
+        } else {
+            logger.error("Gemini API returned an error: {} - {}", responseEntity.getStatusCode(), responseEntity.getBody());
+            throw new RuntimeException("Error calling Gemini API: " + responseEntity.getStatusCode());
+        }
     }
 
     private String formatResponse(String jsonResponse) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            GeminiResponseBody root = mapper.readValue(jsonResponse, GeminiResponseBody.class);
+            GeminiResponseBody root = objectMapper.readValue(jsonResponse, GeminiResponseBody.class);
             return root.candidates()
                     .getFirst()
                     .content()
@@ -82,15 +88,17 @@ public class GeminiService {
                     .text();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("Error parsing GeminiResponseBody: {}", jsonResponse, e);
+            throw new RuntimeException("Failed to parse Gemini API response.", e);
         }
     }
-    public ColorForm responseToColorForm(String jsonResponse) {
-        ObjectMapper mapper = new ObjectMapper();
+
+    public ColorForm responseToColorForm(String text) {
         try {
-            return mapper.readValue(jsonResponse, ColorForm.class);
+            return objectMapper.readValue(text, ColorForm.class);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("Error mapping extracted Gemini text to GeminiColorResponse: {}", text, e);
+            throw new RuntimeException("Failed to map Gemini response to GeminiColorResponse.", e);
         }
     }
 
@@ -98,24 +106,23 @@ public class GeminiService {
         return colorMapper.formToView(form, hex);
     }
 
-    public ResponseEntity<?> validatedSearchColor(String hex){
+    public ResponseEntity<?> validatedSearchColor(String hex) {
         try {
-            colorService.validateHexColor(hex);}
-        catch (InvalidHexadecimalException e){
+            colorService.validateHexColor(hex);
+        } catch (InvalidHexadecimalException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok().body(
-                colorFormToColorView(
-                        responseToColorForm(
-                                formatResponse(
-                                        generateContent(
-                                                generatePrompt(hex.trim()))
-                                )
-                        )
-                        ,hex
-                )
 
-        );
+        String trimmedHex = hex.trim();
+        String prompt = generatePrompt(trimmedHex);
+        String rawGeminiResponse = generateContent(prompt);
+        String text = formatResponse(rawGeminiResponse);
+
+        ColorForm geminiData = responseToColorForm(text);
+
+        ColorView finalColorView = colorFormToColorView(geminiData, trimmedHex);
+
+        return ResponseEntity.ok().body(finalColorView);
     }
 }
 

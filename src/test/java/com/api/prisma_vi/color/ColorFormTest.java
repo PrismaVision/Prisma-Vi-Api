@@ -22,27 +22,17 @@ public class ColorFormTest {
         );
 
         String expected = """
-        {
-          "name": "Navy Blue",
-          "description": "Evokes seriousness and confidence.",
-          "psychologyTags": [
-            "trust",
-            "seriousness",
-            "stability"
-          ],
-          "designUsageSuggestions": "Useful as a background color in corporate apps",
-          "colorPallete": [
-            {
-              "name": "Light Blue",
-              "hex": "#ADD8E6"
-            },
-            {
-              "name": "Sky Blue",
-              "hex": "#87CEEB"
-            }
-          ]
-        }
-        """;
+                {
+                  "name": "Navy Blue",
+                  "description": "Evokes seriousness and confidence.",
+                  "psychologyTags": ["trust","seriousness","stability"],
+                  "designUsageSuggestions": "Useful as a background color in corporate apps",
+                  "colorPalette": [
+                    {"name": "Light Blue", "hex": "##ADD8E6"},
+                    {"name": "Sky Blue", "hex": "##87CEEB"}
+                  ]
+                }
+                """;
 
         String actual = colorForm.toString();
 

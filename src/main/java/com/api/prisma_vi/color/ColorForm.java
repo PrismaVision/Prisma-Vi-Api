@@ -13,13 +13,13 @@ public record ColorForm(
     // Construtor alternativo (sem argumentos) com valores padrão
     public ColorForm() {
         this(
-                "Descriptive name of the color, e.g. 'Navy Blue'",
-                "Brief emotional and cultural description of the color. e.g. 'Evokes seriousness and confidence.'",
-                new String[] { "e.g. trust", "e.g. seriousness", "e.g. stability" },
-                "Suggestions for use in design e.g. 'Useful as a background color in corporate apps'",
+                "Descriptive_name_of_the_color,_e.g._'Navy_Blue'",
+                "Brief_emotional_and_cultural_description_of_the_color._e.g._'Evokes_seriousness_and_confidence.'",
+                new String[] { "e.g._trust", "e.g._seriousness", "e.g._stability" },
+                "Suggestions_for_use_in_design_e.g._'Useful_as_a_background_color_in_corporate_apps'",
                 new SimpleColor[] {
-                        new SimpleColor("Name of the complementary or analogous color. e.g. 'Light Blue'", "e.g. #ADD8E6"),
-                        new SimpleColor("Name another of the complementary or analogous color. e.g. 'Azul Claro'", "e.g. #ADD8E6")
+                        new SimpleColor("Name_of_the_complementary_or_analogous_color._e.g._'Light_Blue'", "e.g._#ADD8E6"),
+                        new SimpleColor("Name_another_of_the_complementary_or_analogous_color._e.g._'Azul_Claro'", "e.g._#ADD8E6")
                 }
         );
     }
@@ -45,33 +45,27 @@ public record ColorForm(
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\n");
-        sb.append("  \"name\": \"").append(name).append("\",\n");
-        sb.append("  \"description\": \"").append(description).append("\",\n");
-
-        sb.append("  \"psychologyTags\": [\n");
-        for (int i = 0; i < psychologyTags.length; i++) {
-            sb.append("    \"").append(psychologyTags[i]).append("\"");
-            if (i < psychologyTags.length - 1) sb.append(",");
-            sb.append("\n");
+        String sb = """
+        {
+          "name": "%s",
+          "description": "%s",
+          "psychologyTags": ["%s","%s","%s"],
+          "designUsageSuggestions": "%s",
+          "colorPalette": [
+            {"name": "%s", "hex": "#%s"},
+            {"name": "%s", "hex": "#%s"}
+          ]
         }
-        sb.append("  ],\n");
-
-        sb.append("  \"designUsageSuggestions\": \"").append(designUsageSuggestions).append("\",\n");
-
-        sb.append("  \"colorPallete\": [\n");
-        for (int i = 0; i < colorPallete.length; i++) {
-            SimpleColor color = colorPallete[i];
-            sb.append("    {\n");
-            sb.append("      \"name\": \"").append(color.name()).append("\",\n");
-            sb.append("      \"hex\": \"").append(color.hex()).append("\"\n");
-            sb.append("    }");
-            if (i < colorPallete.length - 1) sb.append(",");
-            sb.append("\n");
-        }
-        sb.append("  ]\n");
-        sb.append("}");
+        """.formatted(name,
+                description,
+                psychologyTags[0],
+                psychologyTags[1],
+                psychologyTags[2],
+                designUsageSuggestions,
+                colorPallete[0].name(),
+                colorPallete[0].hex(),
+                colorPallete[1].name(),
+                colorPallete[1].hex());
 
         return sb.toString();
     }

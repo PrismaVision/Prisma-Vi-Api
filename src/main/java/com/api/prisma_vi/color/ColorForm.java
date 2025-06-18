@@ -5,7 +5,7 @@ public record ColorForm(
         String description,
         String[] psychologyTags,
         String designUsageSuggestions,
-        SimpleColor[] colorPallete
+        SimpleColor[] colorPalette
 ) {
     public ColorForm() {
         this(
@@ -40,9 +40,9 @@ public record ColorForm(
                 psychologyTags[1],
                 psychologyTags[2],
                 designUsageSuggestions,
-                colorPallete[0].name(),
-                colorPallete[0].hex(),
-                colorPallete[1].name(),
-                colorPallete[1].hex());
+                colorPalette[0].name(),
+                colorPalette[0].hex(),
+                colorPalette[1].name(),
+                colorPalette[1].hex());
     }
 }

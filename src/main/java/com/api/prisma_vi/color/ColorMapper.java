@@ -21,7 +21,7 @@ public class ColorMapper {
 
         List<String> psychologyTags = Arrays.asList(form.psychologyTags());
 
-        List<SimpleColor> palette = Arrays.stream(form.colorPallete())
+        List<SimpleColor> palette = Arrays.stream(form.colorPalette())
                 .map(c -> new SimpleColor(c.name(), c.hex()))
                 .collect(Collectors.toList());
 

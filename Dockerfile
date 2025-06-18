@@ -1,16 +1,29 @@
-FROM maven:3.9.8-eclipse-temurin-21 AS build
+FROM graalvm/graalvm-ce:ol9-java21-24.0.2 AS builder
 
 WORKDIR /app
 
-COPY pom.xml .
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+
+RUN ./mvnw dependency:go-offline
+
 COPY src ./src
 
-RUN mvn clean install -DskipTests
+RUN ./mvnw -Pnative clean package
 
-FROM openjdk:21-jdk-slim
 
-ARG JAR_FILE=target/prisma-vi-1.jar
+FROM gcr.io/distroless/base-debian12 AS runtime
 
-COPY --from=build /app/${JAR_FILE} app.jar
+ARG APP_NAME=prisma-vi
 
-ENTRYPOINT ["java","-jar","app.jar"]
+WORKDIR /app
+
+COPY --from=builder /app/target/${APP_NAME} .
+
+EXPOSE 8080
+
+ENV PROFILE="prod"
+
+USER nonroot:nonroot
+
+ENTRYPOINT ["./${APP_NAME}"]

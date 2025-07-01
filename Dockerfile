@@ -10,13 +10,12 @@ RUN ./mvnw dependency:go-offline
 COPY src ./src
 RUN ./mvnw package -Pnative -DskipTests
 
-FROM gcr.io/distroless/cc-debian12 AS final
+FROM debian:12-slim
 WORKDIR /app
 
 COPY --from=builder /app/target/prisma-vi .
 
 EXPOSE 8080
 ENV PROFILE="prod"
-USER nonroot:nonroot
 
 CMD ["./prisma-vi"]

@@ -1,10 +1,11 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: prisma-vi-pg
+    container_name: prisma-db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
+      POSTGRES_DB: prisma-db
     ports:
       - "5432:5432"
     restart: always
